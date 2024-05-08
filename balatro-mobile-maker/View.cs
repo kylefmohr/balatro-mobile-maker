@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Net;
 using System.Threading;
+using System.IO;
 using static balatro_mobile_maker.Constants;
 using static balatro_mobile_maker.Tools;
 using static balatro_mobile_maker.Program;
@@ -211,6 +212,10 @@ internal class View
 
                 if (_iosBuild)
                     fileCopy("balatro.zip", "game.love");
+                    if(!Platform.isWindows)
+                    {
+                        File.SetUnixFileMode("game.love", UnixFileMode.UserExecute | UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead | UnixFileMode.OtherRead | UnixFileMode.OtherExecute | UnixFileMode.GroupExecute);
+                    }
                 #endregion
 
                 if (_androidBuild)
