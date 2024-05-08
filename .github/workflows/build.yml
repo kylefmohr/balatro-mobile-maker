@@ -1,8 +1,11 @@
 name: Build and Release Binaries
 
-on:
-  push:
-    branches: [ main ]
+on: 
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number for the release'
+        required: true
 
 jobs:
   build-and-release:
@@ -37,10 +40,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ github.sha }}
-          release_name: Release ${{ github.sha }}
-          draft: false
-          prerelease: false
+          # Use the provided version number
+          tag_name: v${{ github.event.inputs.version }}
 
       - name: Upload Windows x64 binary
         uses: actions/upload-release-asset@v1
